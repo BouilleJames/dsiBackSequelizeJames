@@ -3,7 +3,6 @@ const jwt = require("jsonwebtoken");
 const { db } = require("../server");
 const authenticateToken = require("_middleware/token");
 
-
 const crypto = require("crypto");
 
 // Génère une clé secrète sécurisée de 128 bits (16 octets)
@@ -15,7 +14,6 @@ const secretKey = generateSecretKey();
 console.log("Clé secrète :", secretKey);
 
 const path = (app) => {
-
   // Endpoint pour générer un token d'authentification
   app.post("/login", (req, res) => {
     const { email, password } = req.body;
@@ -36,8 +34,9 @@ const path = (app) => {
               const message = `problème de comparaison des mots de passe`;
               return res.status(401).json({ message });
             } else if (result) {
-              const token = jwt.sign({ email: email }, "secretKey",{ expiresIn: '2h' 
-                 });
+              const token = jwt.sign({ email: email }, "secretKey", {
+                expiresIn: "2h",
+              });
               res.json({ token: token });
             } else {
               const message = `Le mot de passe est incorrect.`;
@@ -66,6 +65,5 @@ const path = (app) => {
     // Vérifiez les informations d'identification de l'utilisateur dans la base de données
     // ...
   });
-};
 
 module.exports = path, authenticateToken;
